@@ -35,8 +35,8 @@
     <div class="row p-2">
       <div class="col">
         <button type="button" class="btn btn-primary my-2" @click="fetchData">Fetch from API</button>
-        <div class="card background-grey-200 p-2">
-          <pre>{{dataJson}}</pre>
+        <div class="card bg-dark p-2">
+          <pre class="text-white">{{dataJson}}</pre>
         </div>
       </div>
     </div>
