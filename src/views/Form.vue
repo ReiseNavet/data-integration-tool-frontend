@@ -1,17 +1,23 @@
 <template>
   <div>
     <div class="row p-2">
-      <div class="col input-group">
-        <div class="custom-file">
-          <label class="custom-file-label" for="source">Source Schema</label>
-          <input class="custom-file-input" type="file" name="source" id="source">
-        </div>
+      <div class="col">
+        <v-file-input
+          truncate-length="30" 
+          placeholder="Source schema"
+          show-size
+          :rules="uploadFileRules"
+          v-model="sourceSchema"
+        />
       </div>
-      <div class="col input-group">
-        <div class="custom-file">
-          <label class="custom-file-label" for="target">Target Schema</label>
-          <input class="custom-file-input" type="file" name="target" id="target">
-        </div>
+      <div class="col">
+        <v-file-input
+          truncate-length="30" 
+          placeholder="Target schema"
+          show-size
+          :rules="uploadFileRules"
+          v-model="targetSchema"
+        />
       </div>
     </div>
 
@@ -43,17 +49,30 @@ export default {
   name: 'SchemaForm',
   props: {},
   data: () => ({
-    sourceSchema: '',
-    targetSchema: '',
-    equivalence: false,
+    uploadFileRules: [
+      value => !value || value.size < 2000000 || 'Maximum filesize is 2 MB!'
+    ],
+    sourceSchema: null,
+    targetSchema: null,
+    equivalence: true,
     subsumption: false,
-    data: {},
   }),
+  computed: {
+    formData() {
+      return {
+        sourceSchema: this.sourceSchema,
+        targetSchema: this.targetSchema,
+        equivalence: this.equivalence,
+        subsumption: this.subsumption,
+      }
+    }
+  },
   methods: {
     submit() {
-      this.$emit('submit')
+      this.$emit('submit', this.formData)
     },
   },
+  watch: {}
 }
 </script>
 
