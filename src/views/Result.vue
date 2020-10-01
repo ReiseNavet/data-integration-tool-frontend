@@ -12,35 +12,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Planned departure</td>
-              <td>Scheduled departure</td>
-              <td>=</td>
-              <td>0.8</td>
-            </tr>
-            <tr>
-              <td>Stop point</td>
-              <td>Bus stop</td>
-              <td>&gt;</td>
-              <td>0.9</td>
-            </tr>
-            <tr>
-              <td>Stop point</td>
-              <td>Location</td>
-              <td>&lt;</td>
-              <td>0.75</td>
+            <tr v-for="row in result" :key="row.source + row.target">
+              <td>{{row.source}}</td>
+              <td>{{row.target}}</td>
+              <td>{{row.relation}}</td>
+              <td>{{row.confidence.toFixed(2)}}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="row p-2">
-      <div>
-        <button type="button" class="btn btn-primary">Download alignment</button>
+    <div class="d-flex py-2">
+      <div class="px-2">
+        <button type="button" class="btn btn-primary" @click="download">Download alignment</button>
       </div>
-      <div>
-        <button type="button" class="btn btn-primary">New allignment</button>
+      <div class="px-2">
+        <button type="button" class="btn btn-primary" @click="reset">New alignment</button>
       </div>
     </div>
   </div>
@@ -48,6 +36,35 @@
 
 <script>
 export default {
+  props: {
+    result: {
+      type: Array,
+      required: true,
+    }
+  },
+  data: () => ({
+
+  }),
+  computed: {
+    filteredResult() {
+      return this.result
+    }
+  },
+  methods: {
+    reset() {
+      this.$emit('reset')
+    },
+    download() {
+      // ref: https://stackoverflow.com/a/30800715/11192976
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href",     dataStr);
+      downloadAnchorNode.setAttribute("download", "result.json");
+      document.body.appendChild(downloadAnchorNode); // required for firefox
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+  }
 
 }
 </script>

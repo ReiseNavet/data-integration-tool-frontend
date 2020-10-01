@@ -3,7 +3,7 @@
     <Header @submit="changeView"/>
     <v-main>
       <Form v-if="showForm" @submit="submitData"/>
-      <Result v-else/>
+      <Result v-else :result="result" @reset="reset"/>
     </v-main>
   </v-app>
 </template>
@@ -21,7 +21,7 @@ export default {
   },
   data: () => ({
     showForm: true,
-    result: null,
+    result: [],
   }),
   methods: {
     async submitData(data) {
@@ -41,15 +41,16 @@ export default {
         body: formData,
       })
       const responseBody = await response.json()
-      this.result = responseBody
+      this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
       
       this.changeView()
-
-      const message = this.result.length ? `${this.result.length} rows received from backend! That's a lot! (Right..?)` : 'No rows received from backend..?'
-      alert(message)
     },
     changeView () {
       this.showForm=!this.showForm
+    },
+    reset() {
+      this.showForm = true
+      this.result = []
     }
   }
 };
