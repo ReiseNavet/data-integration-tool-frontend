@@ -12,15 +12,35 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Fill out from generetad result -->
+            <tr>
+              <td>Planned departure</td>
+              <td>Scheduled departure</td>
+              <td>=</td>
+              <td>0.8</td>
+            </tr>
+            <tr>
+              <td>Stop point</td>
+              <td>Bus stop</td>
+              <td>&gt;</td>
+              <td>0.9</td>
+            </tr>
+            <tr>
+              <td>Stop point</td>
+              <td>Location</td>
+              <td>&lt;</td>
+              <td>0.75</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="row p-2">
-      <div class="col">
+      <div>
         <button type="button" class="btn btn-primary">Download alignment</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary">New allignment</button>
       </div>
     </div>
   </div>
