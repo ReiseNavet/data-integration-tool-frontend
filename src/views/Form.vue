@@ -23,15 +23,14 @@
 
     <div class="row p-2">
       <div class="col">
-        <label for="relations">Semantic Relations</label>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="equivalence" id="equivalence" v-model="equivalence">
-          <label class="form-check-label" for="equivalence"> Equivalence </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="subsumption" id="subsumption" v-model="subsumption">
-          <label class="form-check-label" for="subsumption"> Subsumption </label>
-        </div>
+        <v-checkbox 
+          v-model="equivalence"
+          label="Equivalence"
+        />
+        <v-checkbox 
+          v-model="subsumption"
+          label="Subsumption"
+        />
       </div>
     </div>
 
@@ -72,7 +71,6 @@ export default {
       this.$emit('submit', this.formData)
     },
   },
-  watch: {}
 }
 </script>
 

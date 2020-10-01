@@ -28,10 +28,6 @@ export default {
       const formData = new FormData()
       formData.append('source', data.sourceSchema)
       formData.append('target', data.targetSchema)
-
-      /**The way form-data works, is that booleans are only
-       * cared about if they are true, otherwise we don't
-       * put them into the package. */
       if(data.equivalence) {
         formData.append('equivalence', 'true')
       }
@@ -40,15 +36,11 @@ export default {
       }
 
       const url = 'http://localhost:7000' // TODO: Change for productionn
-
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
       })
       const responseBody = await response.json()
-
-      console.log(responseBody)
-
       this.result = responseBody
       
       this.changeView()
@@ -64,5 +56,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>
