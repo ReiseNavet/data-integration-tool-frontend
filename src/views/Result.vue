@@ -1,27 +1,13 @@
 <template>
   <div>
-    <div class="row p-2">
-      <div class="col">
-        <table class="table table-striped">
-          <thead class="table-borderless">
-            <tr>
-              <th scope="col">Source Schema</th>
-              <th scope="col">Target Schema</th>
-              <th scope="col">Relation</th>
-              <th scope="col">Confidence</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in result" :key="row.source + row.target">
-              <td>{{row.source}}</td>
-              <td>{{row.target}}</td>
-              <td>{{row.relation}}</td>
-              <td>{{row.confidence.toFixed(2)}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
+    <v-data-table
+      :headers="tableHeaders"
+      :items="result"
+      :items-per-page="10"
+      class="elevation-1"
+    />
+
 
     <div class="d-flex py-2">
       <div class="px-2">
@@ -43,13 +29,13 @@ export default {
     }
   },
   data: () => ({
-
+    tableHeaders: [
+      { text: 'Source', value: 'source' },
+      { text: 'Target', value: 'target' },
+      { text: 'Relation', value: 'relation' },
+      { text: 'Confidence', value: 'confidence' },
+    ],
   }),
-  computed: {
-    filteredResult() {
-      return this.result
-    }
-  },
   methods: {
     reset() {
       this.$emit('reset')
