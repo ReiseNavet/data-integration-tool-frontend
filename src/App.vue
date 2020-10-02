@@ -1,28 +1,35 @@
 <template>
-  <div id="app" class="container-sm px-lg-5">
-    <div class="row py-2">
-      <div class="col px-2">
-        <div class="card">
-          <SchemaForm/>
-        </div>
-      </div>
-      <div class="col px-2">
-        <div class="card">
-          <ComputedAlignment/>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-app>
+    <Header @submit="changeView"/>
+    <v-main>
+      <Form v-if="active" @submit="changeView"/>
+      <Result v-if="!active"/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import SchemaForm from './components/SchemaForm'
-import ComputedAlignment from './components/ComputedAlignment'
+import Header from './components/Header'
+import Form from './views/Form'
+import Result from './views/Result'
+
 export default {
-  name: 'App',
   components: {
-    SchemaForm, 
-    ComputedAlignment,
+    Header,
+    Form,
+    Result,
+  },
+  data: () => ({
+    active: true,
+  }),
+  methods: {
+    changeView () {
+      this.active=!this.active
+    }
   }
-}
+};
 </script>
+
+<style lang="scss">
+
+</style>

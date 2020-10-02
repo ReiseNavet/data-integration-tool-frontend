@@ -30,20 +30,17 @@
               <td>&lt;</td>
               <td>0.75</td>
             </tr>
-            <tr>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="row p-2">
-      <div class="col">
-        <button type="button" class="btn btn-primary" >Download alignment</button>
+      <div>
+        <button type="button" class="btn btn-primary">Download alignment</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary">New allignment</button>
       </div>
     </div>
   </div>
