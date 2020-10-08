@@ -1,7 +1,25 @@
 <template>
-  <div>
-    <div class="row p-2">
-      <div class="col">
+  <div class="container">
+   <v-row>
+    <v-col>
+      <h2>
+        Alignment tool
+      </h2>
+    </v-col>
+  </v-row>
+  <v-row class="my-0">
+    <v-col>
+      <p>
+          This alignment tool is used to compare two schemas. Upload both files, choose what semantic relation wanted and compute the alignment.
+      </p>
+    </v-col>
+  </v-row>
+  <v-container>
+   <v-row class="my-0" justify="center">
+      <h6>Upload files</h6>
+  </v-row>
+  <v-row class="my-0">
+      <v-col>
         <v-file-input
           truncate-length="30" 
           placeholder="Source schema"
@@ -9,8 +27,8 @@
           :rules="uploadFileRules"
           v-model="sourceSchema"
         />
-      </div>
-      <div class="col">
+      </v-col>
+      <v-col>
         <v-file-input
           truncate-length="30" 
           placeholder="Target schema"
@@ -18,28 +36,36 @@
           :rules="uploadFileRules"
           v-model="targetSchema"
         />
-      </div>
-    </div>
-
-    <div class="row p-2">
-      <div class="col">
+      </v-col>
+    </v-row>
+    <v-row class="my-0" justify="center">
+      <h6>Choose semantic relation</h6>
+    </v-row>
+   <v-row class="my-0" justify="center">
         <v-checkbox 
           v-model="equivalence"
           label="Equivalence"
         />
+    </v-row>
+    <v-row class="my-0" justify="center">
         <v-checkbox 
           v-model="subsumption"
           label="Subsumption"
         />
-      </div>
-    </div>
-
-    <div class="row p-2">
-      <div class="col">
-        <button type="button" class="btn btn-primary" @click="submit">Compute Alignment</button>
-      </div>
-    </div>
-
+    </v-row>
+    <v-row class="my-0" justify="center">
+        <v-btn
+          color="orange"
+          elevation="2"
+          @click="submit"
+        >   
+        <v-icon dark>
+          mdi-check
+          </v-icon>
+        Compute Alignment    
+        </v-btn>
+    </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -53,8 +79,11 @@ export default {
     ],
     sourceSchema: null,
     targetSchema: null,
-    equivalence: true,
+    equivalence: false,
     subsumption: false,
+    alignments: [
+        'center',
+      ],
   }),
   computed: {
     formData() {
@@ -75,4 +104,5 @@ export default {
 </script>
 
 <style lang="scss">
+
 </style>
