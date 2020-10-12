@@ -1,24 +1,22 @@
 <template>
-  <div class="container">
-   <v-row>
-    <v-col>
-      <h2>
-        Alignment tool
-      </h2>
-    </v-col>
-  </v-row>
-  <v-row class="my-0">
-    <v-col>
-      <p>
-          This alignment tool is used to compare two schemas. Upload both files, choose what semantic relation wanted and compute the alignment.
-      </p>
-    </v-col>
-  </v-row>
   <v-container>
-   <v-row class="my-0" justify="center">
+    <v-row>
+      <v-col>
+        <h2> Alignment tool </h2>
+      </v-col>
+    </v-row>
+    <v-row class="my-0">
+      <v-col>
+        <p> 
+          This alignment tool is used to compare two schemas. 
+          Upload both files, choose what semantic relation wanted and compute the alignment.
+        </p>
+      </v-col>
+    </v-row>
+    <v-row class="my-0" justify="center">
       <h6>Upload files</h6>
-  </v-row>
-  <v-row class="my-0">
+    </v-row>
+    <v-row class="my-0 rn-file-upload">
       <v-col>
         <v-file-input
           truncate-length="30" 
@@ -41,32 +39,31 @@
     <v-row class="my-0" justify="center">
       <h6>Choose semantic relation</h6>
     </v-row>
-   <v-row class="my-0" justify="center">
+    <v-row justify="center" class="rn-checkboxes">
+      <v-col style="width: 150px!important; flex-grow: 0;">
         <v-checkbox 
           v-model="equivalence"
           label="Equivalence"
         />
-    </v-row>
-    <v-row class="my-0" justify="center">
         <v-checkbox 
           v-model="subsumption"
           label="Subsumption"
         />
+      </v-col>
     </v-row>
-    <v-row class="my-0" justify="center">
-        <v-btn
-          color="orange"
-          elevation="2"
-          @click="submit"
-        >   
-        <v-icon dark>
-          mdi-check
-          </v-icon>
-        Compute Alignment    
-        </v-btn>
+    <v-row justify="center">
+      <v-btn
+        color="orange"
+        elevation="2"
+        @click="submit"
+      >   
+      <v-icon dark>
+        mdi-check
+        </v-icon>
+      Compute Alignment    
+      </v-btn>
     </v-row>
-    </v-container>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -104,5 +101,13 @@ export default {
 </script>
 
 <style lang="scss">
+  .rn-file-upload .v-input__slot {
+    cursor: pointer!important;
+  }
 
+  // .rn-checkboxes .v-messages {
+  //   height: 0!important;
+  //   min-height: 0!important;
+  //   padding: 0!important;
+  // }
 </style>
