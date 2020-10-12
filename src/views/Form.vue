@@ -1,7 +1,23 @@
 <template>
-  <div>
-    <div class="row p-2">
-      <div class="col">
+  <v-container>
+    <v-row>
+      <v-col>
+        <h2> Alignment tool </h2>
+      </v-col>
+    </v-row>
+    <v-row class="my-0">
+      <v-col>
+        <p> 
+          This alignment tool is used to compare two schemas. 
+          Upload both files, choose what semantic relation wanted and compute the alignment.
+        </p>
+      </v-col>
+    </v-row>
+    <v-row class="my-0" justify="center">
+      <h4>Upload files</h4>
+    </v-row>
+    <v-row class="my-0 rn-file-upload">
+      <v-col offset-sm="2" sm="4" cols="12">
         <v-file-input
           truncate-length="30" 
           placeholder="Source schema"
@@ -9,8 +25,8 @@
           :rules="uploadFileRules"
           v-model="sourceSchema"
         />
-      </div>
-      <div class="col">
+      </v-col>
+      <v-col sm="4" cols="12">
         <v-file-input
           truncate-length="30" 
           placeholder="Target schema"
@@ -18,11 +34,13 @@
           :rules="uploadFileRules"
           v-model="targetSchema"
         />
-      </div>
-    </div>
-
-    <div class="row p-2">
-      <div class="col">
+      </v-col>
+    </v-row>
+    <v-row class="my-0" justify="center">
+      <h4>Choose semantic relation</h4>
+    </v-row>
+    <v-row justify="center" class="rn-checkboxes">
+      <v-col style="width: 150px!important; flex-grow: 0;">
         <v-checkbox 
           v-model="equivalence"
           label="Equivalence"
@@ -31,16 +49,21 @@
           v-model="subsumption"
           label="Subsumption"
         />
-      </div>
-    </div>
-
-    <div class="row p-2">
-      <div class="col">
-        <button type="button" class="btn btn-primary" @click="submit">Compute Alignment</button>
-      </div>
-    </div>
-
-  </div>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-btn
+        color="orange"
+        elevation="2"
+        @click="submit"
+      >   
+      <v-icon dark>
+        mdi-check
+        </v-icon>
+      Compute Alignment    
+      </v-btn>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -53,8 +76,11 @@ export default {
     ],
     sourceSchema: null,
     targetSchema: null,
-    equivalence: true,
+    equivalence: false,
     subsumption: false,
+    alignments: [
+        'center',
+      ],
   }),
   computed: {
     formData() {
@@ -75,4 +101,7 @@ export default {
 </script>
 
 <style lang="scss">
+  .rn-file-upload .v-input__slot {
+    cursor: pointer!important;
+  }
 </style>
