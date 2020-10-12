@@ -14,10 +14,10 @@
       </v-col>
     </v-row>
     <v-row class="my-0" justify="center">
-      <h6>Upload files</h6>
+      <h4>Upload files</h4>
     </v-row>
     <v-row class="my-0 rn-file-upload">
-      <v-col>
+      <v-col offset-sm="2" sm="4" cols="12">
         <v-file-input
           truncate-length="30" 
           placeholder="Source schema"
@@ -26,7 +26,7 @@
           v-model="sourceSchema"
         />
       </v-col>
-      <v-col>
+      <v-col sm="4" cols="12">
         <v-file-input
           truncate-length="30" 
           placeholder="Target schema"
@@ -37,7 +37,7 @@
       </v-col>
     </v-row>
     <v-row class="my-0" justify="center">
-      <h6>Choose semantic relation</h6>
+      <h4>Choose semantic relation</h4>
     </v-row>
     <v-row justify="center" class="rn-checkboxes">
       <v-col style="width: 150px!important; flex-grow: 0;">
@@ -104,10 +104,4 @@ export default {
   .rn-file-upload .v-input__slot {
     cursor: pointer!important;
   }
-
-  // .rn-checkboxes .v-messages {
-  //   height: 0!important;
-  //   min-height: 0!important;
-  //   padding: 0!important;
-  // }
 </style>
