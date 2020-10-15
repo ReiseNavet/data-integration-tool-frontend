@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2> Alignment tool </h2>
+        <h2> Alignment Tool </h2>
       </v-col>
     </v-row>
     <v-row class="my-0">
@@ -62,13 +62,35 @@
         </v-icon>
       Compute Alignment    
       </v-btn>
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="300"
+      >
+        <v-card>
+          <v-card-title>
+            This can take some time...
+          </v-card-title>
+          <v-card-text class="mt-4">
+            <v-progress-linear
+              indeterminate
+              color="orange"
+            />
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center pb-4">
+            <v-btn color="white" @click="dialog = false"> 
+              <v-icon dark> mdi-cancel </v-icon> Cancel 
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'SchemaForm',
+  name: 'Form',
   props: {},
   data: () => ({
     uploadFileRules: [
@@ -78,9 +100,7 @@ export default {
     targetSchema: null,
     equivalence: false,
     subsumption: false,
-    alignments: [
-        'center',
-      ],
+    dialog: false,
   }),
   computed: {
     formData() {
@@ -95,6 +115,7 @@ export default {
   methods: {
     submit() {
       this.$emit('submit', this.formData)
+      this.dialog = true
     },
   },
 }

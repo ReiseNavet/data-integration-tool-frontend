@@ -2,7 +2,7 @@
 <div class="container">
   <v-row>
     <v-col>
-      <h2 style="white-space: nowrap;"> Alignment result </h2>
+      <h2 style="white-space: nowrap;"> Alignment Result </h2>
 
     </v-col>
     <div class="float-md-right">
@@ -15,7 +15,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="ml-2" color="orange" v-bind="attrs" v-on="on">
             <v-icon dark> mdi-arrow-left </v-icon>
-            New alignment
+            Compute new alignment
           </v-btn>
         </template>
         <v-card>
@@ -51,7 +51,42 @@
         :items="result"
         :items-per-page="10"
         class="elevation-4"
-      />
+        :footer-props="{'items-per-page-options': [10, -1]}"
+      >
+        <template v-slot:[`header.relation`]="{ header }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                style="border-bottom:1px dotted"
+              >
+                {{header.text}}</span>
+            </template>
+            <div style="max-width: 300px; text-align: justify;">
+              <kbd>=</kbd> indicates that the source element and the target element are semantically equivalent, i.e. they are synonymous. <br>
+              <kbd>&lt;</kbd> indicates that the source element is less general than the target element. <br>
+              <kbd>&gt;</kbd> indicates that the source element is more general than the target element.
+            </div>
+          </v-tooltip>
+        </template>
+         <template v-slot:[`header.confidence`]="{ header }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                style="border-bottom:1px dotted"
+              >
+                {{header.text}}</span>
+            </template>
+            <div style="max-width: 300px; text-align: justify;">
+              The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
+
+            </div>
+          </v-tooltip>
+        </template>
+      </v-data-table>
     </v-col>
   </v-row>
 </div>
