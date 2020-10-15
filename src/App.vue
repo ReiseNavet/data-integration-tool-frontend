@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header @submit="changeView"/>
+    <Header @switch="changeView"/>
     <v-main>
       <Form v-if="showForm" @submit="submitData"/>
       <Result v-else :result="result" @reset="reset"/>
@@ -35,7 +35,7 @@ export default {
         formData.append('subsumption', 'true')
       }
 
-      const url = 'http://localhost:7000' // TODO: Change for productionn
+      const url = process.env.NODE_ENV == 'production' ? 'http://46.250.220.200:7000' : 'http://localhost:7000' // TODO: Update for production once HTTPS works
       const response = await fetch(url, {
         method: 'POST',
         body: formData,

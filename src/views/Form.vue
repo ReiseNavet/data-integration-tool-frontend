@@ -71,16 +71,16 @@
           <v-card-title>
             This can take some time...
           </v-card-title>
-          <v-card-text class="ma2">
+          <v-card-text class="mt-4">
             <v-progress-linear
               indeterminate
               color="orange"
             />
           </v-card-text>
-          <v-card-actions>
-            <v-row align-content="center" justify="center"> 
-              <v-btn color="white" @click="dialog = false" > <v-icon dark> mdi-cancel </v-icon> Cancel </v-btn>
-            </v-row>
+          <v-card-actions class="d-flex justify-center pb-4">
+            <v-btn color="white" @click="dialog = false"> 
+              <v-icon dark> mdi-cancel </v-icon> Cancel 
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -90,7 +90,7 @@
 
 <script>
 export default {
-  name: 'SchemaForm',
+  name: 'Form',
   props: {},
   data: () => ({
     uploadFileRules: [
@@ -101,9 +101,6 @@ export default {
     equivalence: false,
     subsumption: false,
     dialog: false,
-    alignments: [
-        'center',
-      ],
   }),
   computed: {
     formData() {

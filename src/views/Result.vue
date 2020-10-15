@@ -47,14 +47,14 @@
   <v-row>
     <v-col>
       <v-data-table
-      
         :headers="tableHeaders"
         :items="result"
         :items-per-page="10"
         class="elevation-4"
+        :footer-props="{'items-per-page-options': [10, -1]}"
       >
         <template v-slot:[`header.relation`]="{ header }">
-          <v-tooltip top>
+          <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <span
                 v-bind="attrs"
@@ -63,13 +63,15 @@
               >
                 {{header.text}}</span>
             </template>
-            ’=’ indicates that the source element and the target element are semantically equivalent, i.e. 
-            they are synonymous. ‘&lt;’ indicates that the source element is less general than the target element, while ‘&gt;’ 
-            indicates that the source element is more general than the target element.
+            <div style="max-width: 300px; text-align: justify;">
+              <kbd>=</kbd> indicates that the source element and the target element are semantically equivalent, i.e. they are synonymous. <br>
+              <kbd>&lt;</kbd> indicates that the source element is less general than the target element. <br>
+              <kbd>&gt;</kbd> indicates that the source element is more general than the target element.
+            </div>
           </v-tooltip>
         </template>
          <template v-slot:[`header.confidence`]="{ header }">
-          <v-tooltip top>
+          <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <span
                 v-bind="attrs"
@@ -78,7 +80,10 @@
               >
                 {{header.text}}</span>
             </template>
-            The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
+            <div style="max-width: 300px; text-align: justify;">
+              The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
+
+            </div>
           </v-tooltip>
         </template>
       </v-data-table>
