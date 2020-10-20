@@ -35,7 +35,7 @@ export default {
         formData.append('subsumption', 'true')
       }
 
-      const url = process.env.NODE_ENV == 'production' ? 'http://46.250.220.200:7000' : 'http://localhost:7000' // TODO: Update for production once HTTPS works
+      const url = process.env.NODE_ENV == 'production' ? 'http://dataintegrasjon.reisenavet.no:7000/' : 'http://localhost:7000' // TODO: Update for production once HTTPS works
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
