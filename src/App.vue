@@ -40,10 +40,11 @@ export default {
         method: 'POST',
         body: formData,
       })
-      const responseBody = await response.json()
-      this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
-      
-      this.changeView()
+      if (response.ok) {
+        const responseBody = await response.json()
+        this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
+        this.changeView()
+      }
     },
     changeView () {
       this.showForm=!this.showForm
