@@ -90,21 +90,36 @@
         </v-dialog>
       </v-row>
       <v-row class="mt-5">
-        <v-alert
-          v-model="alert"
-          style="margin:auto"
-          color="black"
-          text
-          dense
-          dismissible
-          elevation="2"
-          type="error"
-        >   
-          <span>There were some problems:</span>
-          <ul>
-            <li v-for="error in errors" :key="error">{{error}}</li>
-          </ul>
-        </v-alert>
+        <v-col>
+          <v-alert
+            v-model="alertFillOut"
+            color="black"
+            text
+            dense
+            dismissible
+            elevation="2"
+            type="error"
+          >   
+            <span>Problems filling out form:</span>
+            <ul>
+              <li v-for="error in formErrors" :key="error">{{error}}</li>
+            </ul>
+          </v-alert>
+          <v-alert
+            v-model="showBackendErrors"
+            color="black"
+            text
+            dense
+            dismissible
+            elevation="2"
+            type="error"
+          >   
+            <span>Problems when computing:</span>
+            <ul>
+              <li v-for="error in errors" :key="error">{{error}}</li>
+            </ul>
+          </v-alert>
+        </v-col>
       </v-row>
   </v-container>
 </template>
@@ -112,15 +127,20 @@
 <script>
 export default {
   name: 'Form',
-  props: {},
+  props: {
+    errors: {
+      type: Array,
+      required: true,
+    }
+  },
   data: () => ({
     sourceSchema: null,
     targetSchema: null,
     equivalence: false,
     subsumption: false,
-    alert: false,
     dialog: false,
-    errors: []
+    alertFillOut: false,
+    formErrors: [],
   }),
   computed: {
     formData() {
@@ -131,7 +151,14 @@ export default {
         subsumption: this.subsumption,
       }
     },
-    
+    showBackendErrors: {
+      get() {
+        return this.errors.length > 0
+      }, 
+      set() {
+        this.$emit('clearErrors')
+      }
+    }
   },
   methods: {
     validate () {
@@ -151,9 +178,9 @@ export default {
       if(!this.equivalence && !this.subsumption) {
         errs.push("Semantic relation is required")
       } 
-      this.errors = errs
-      this.alert = this.errors.length > 0
-      return !this.alert
+      this.formErrors = errs
+      this.alertFillOut = this.formErrors.length > 0
+      return !this.alertFillOut
     },
     submit() {
       if (this.validate()) {
@@ -161,6 +188,9 @@ export default {
         this.dialog = true
       }
     },
+    closeDialog() {
+      this.dialog = false
+    }
   },
 }
 </script>
