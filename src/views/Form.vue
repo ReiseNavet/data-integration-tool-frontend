@@ -13,11 +13,6 @@
         </p>
       </v-col>
     </v-row>
-    <v-form 
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
       <v-row 
         class="my-0" 
         justify="center" 
@@ -30,9 +25,7 @@
             truncate-length="30" 
             placeholder="Source schema"
             show-size
-            :rules="uploadFileRules"
             v-model="sourceSchema"
-            required
           />
         </v-col>
         <v-col sm="4" cols="12">
@@ -40,9 +33,7 @@
             truncate-length="30" 
             placeholder="Target schema"
             show-size
-            :rules="uploadFileRules"
             v-model="targetSchema"
-            required
           />
         </v-col>
       </v-row>
@@ -57,14 +48,10 @@
           <v-checkbox 
             v-model="equivalence"
             label="Equivalence"
-            :rules="checkboxRules"
-            required
           />
           <v-checkbox 
             v-model="subsumption"
             label="Subsumption"
-            :rules="checkboxRules"
-            required
           />
         </v-col>
       </v-row>
@@ -102,7 +89,23 @@
           </v-card>
         </v-dialog>
       </v-row>
-    </v-form>
+      <v-row class="mt-5">
+        <v-alert
+          v-model="alert"
+          style="margin:auto"
+          color="black"
+          text
+          dense
+          dismissible
+          elevation="2"
+          type="error"
+        >   
+          <span>There were some problems:</span>
+          <ul>
+            <li v-for="error in errors" :key="error">{{error}}</li>
+          </ul>
+        </v-alert>
+      </v-row>
   </v-container>
 </template>
 
@@ -115,12 +118,9 @@ export default {
     targetSchema: null,
     equivalence: false,
     subsumption: false,
-    valid: true,
-    uploadFileRules: [
-      value => !value || value.size < 2000000 || 'Maximum filesize is 2 MB!',
-      value => value || 'File must be uploaded',
-    ],
+    alert: false,
     dialog: false,
+    errors: []
   }),
   computed: {
     formData() {
@@ -131,16 +131,32 @@ export default {
         subsumption: this.subsumption,
       }
     },
-    checkboxRules () {
-      return [
-        () => this.equivalence || this.subsumption || 'Semantic relation is required'
-      ]
-    }
     
   },
   methods: {
+    validate () {
+      const errs = []
+      if(this.sourceSchema && this.sourceSchema.size > 2000000) {
+        errs.push("Maximum filesize for sourcefile is 2 MB")
+      }
+      if(this.targetSchema && this.targetSchema.size > 2000000) {
+        errs.push("Maximum filesize for targetfile is 2 MB")
+      }
+      if(!this.sourceSchema) {
+        errs.push("Source file must be uploaded")
+      }
+      if(!this.targetSchema) {
+        errs.push("Target file must be uploaded")
+      }
+      if(!this.equivalence && !this.subsumption) {
+        errs.push("Semantic relation is required")
+      } 
+      this.errors = errs
+      this.alert = this.errors.length > 0
+      return !this.alert
+    },
     submit() {
-      if (this.$refs.form.validate()) {
+      if (this.validate()) {
         this.$emit('submit', this.formData)
         this.dialog = true
       }
