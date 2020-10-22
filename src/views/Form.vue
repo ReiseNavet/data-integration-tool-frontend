@@ -92,7 +92,7 @@
       <v-row class="mt-5">
         <v-col>
           <v-alert
-            v-model="alertFillOut"
+            v-model="showFormAlert"
             color="black"
             text
             dense
@@ -106,7 +106,7 @@
             </ul>
           </v-alert>
           <v-alert
-            v-model="showBackendErrors"
+            v-model="showBackendAlert"
             color="black"
             text
             dense
@@ -116,7 +116,7 @@
           >   
             <span>Problems when computing:</span>
             <ul>
-              <li v-for="error in errors" :key="error">{{error}}</li>
+              <li>{{serverError}}</li>
             </ul>
           </v-alert>
         </v-col>
@@ -128,9 +128,10 @@
 export default {
   name: 'Form',
   props: {
-    errors: {
-      type: Array,
-      required: true,
+    serverError: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
   data: () => ({
@@ -140,7 +141,7 @@ export default {
     subsumption: false,
     alert: false,
     dialog: false,
-    alertFillOut: false,
+    showFormAlert: false,
     formErrors: [],
   }),
   computed: {
@@ -152,9 +153,9 @@ export default {
         subsumption: this.subsumption,
       }
     },
-    showBackendErrors: {
+    showBackendAlert: {
       get() {
-        return this.errors.length > 0
+        return this.serverError.length > 0
       }, 
       set() {
         this.$emit('clearErrors')
@@ -180,8 +181,8 @@ export default {
         errs.push("Semantic relation is required")
       } 
       this.formErrors = errs
-      this.alertFillOut = this.formErrors.length > 0
-      return !this.alertFillOut
+      this.showFormAlert = this.formErrors.length > 0
+      return !this.showFormAlert
     },
     submit() {
       if (this.validate()) {

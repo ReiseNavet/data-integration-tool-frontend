@@ -6,7 +6,7 @@
         v-if="showForm" 
         ref="form"
         @submit="submitData" 
-        :errors="errors" 
+        :serverError="serverError" 
         @clearErrors="clearErrors"
       />
       <Result v-else :result="result" @reset="reset"/>
@@ -28,7 +28,7 @@ export default {
   data: () => ({
     showForm: true,
     result: [],
-    errors: [],
+    serverError: '',
   }),
   methods: {
     async submitData(data) {
@@ -54,13 +54,12 @@ export default {
           this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
           this.changeView()
         } else {
-          this.$refs.form.closeDialog()
-          this.errors = [ await response.json() ]
+          this.serverError = await response.text()
         }
-      } catch(ex) {
-        this.$refs.form.closeDialog()
-        this.errors = [ "Server connection failed" ]
+      } catch(e) {
+        this.serverError = "Server connection failed" 
       }
+      this.$refs.form.closeDialog()
     },
     changeView () {
       this.showForm=!this.showForm
@@ -70,7 +69,7 @@ export default {
       this.result = []
     },
     clearErrors() {
-      this.errors = []
+      this.serverError = ''
     }
   }
 };
