@@ -2,7 +2,13 @@
   <v-app>
     <Header @switch="changeView"/>
     <v-main>
-      <Form v-if="showForm" @submit="submitData"/>
+      <Form 
+        v-if="showForm" 
+        ref="form"
+        @submit="submitData" 
+        :serverError="serverError" 
+        @clearErrors="clearErrors"
+      />
       <Result v-else :result="result" @reset="reset"/>
     </v-main>
   </v-app>
@@ -22,6 +28,7 @@ export default {
   data: () => ({
     showForm: true,
     result: [],
+    serverError: '',
   }),
   methods: {
     async submitData(data) {
@@ -36,14 +43,23 @@ export default {
       }
 
       const url = process.env.NODE_ENV == 'production' ? 'http://dataintegrasjon.reisenavet.no:7000/' : 'http://localhost:7000' // TODO: Update for production once HTTPS works
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData,
-      })
-      const responseBody = await response.json()
-      this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
-      
-      this.changeView()
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData,
+        })
+        
+        if (response.ok) {
+          const responseBody = await response.json()
+          this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
+          this.changeView()
+        } else {
+          this.serverError = await response.text()
+        }
+      } catch(e) {
+        this.serverError = "Server connection failed" 
+      }
+      this.$refs.form.closeDialog()
     },
     changeView () {
       this.showForm=!this.showForm
@@ -51,6 +67,9 @@ export default {
     reset() {
       this.showForm = true
       this.result = []
+    },
+    clearErrors() {
+      this.serverError = ''
     }
   }
 };
