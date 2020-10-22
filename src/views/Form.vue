@@ -22,6 +22,7 @@
       <v-row class="my-0 rn-file-upload">
         <v-col offset-sm="2" sm="4" cols="12">
           <v-file-input
+            accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
             truncate-length="30" 
             placeholder="Source schema"
             show-size
@@ -30,6 +31,7 @@
         </v-col>
         <v-col sm="4" cols="12">
           <v-file-input
+            accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
             truncate-length="30" 
             placeholder="Target schema"
             show-size
@@ -139,7 +141,6 @@ export default {
     targetSchema: null,
     equivalence: false,
     subsumption: false,
-    alert: false,
     dialog: false,
     showFormAlert: false,
     formErrors: [],
