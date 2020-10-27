@@ -8,7 +8,7 @@
     <div class="float-md-right">
       <v-btn class="ma-2 mr-0" color="white" elevation="2" @click="download">    
         <v-icon dark> mdi-download </v-icon>
-        Download alignment 
+        Download alignment as .json ({{fileSize}} kb)
       </v-btn>
     
       <v-dialog v-model="dialog" persistent max-width="290">
@@ -112,15 +112,22 @@ export default {
         'space-between',
     ],
   }),
+  computed: {
+    dataString() {
+      return "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2))
+    },
+    fileSize() {
+      return ((new Blob([this.dataString]).size)/1000).toFixed(1)
+    }
+  },
   methods: {
     reset() {
       this.$emit('reset')
     },
     download() {
       // ref: https://stackoverflow.com/a/30800715/11192976
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2));
       const downloadAnchorNode = document.createElement('a');
-      downloadAnchorNode.setAttribute("href",     dataStr);
+      downloadAnchorNode.setAttribute("href", this.dataString);
       downloadAnchorNode.setAttribute("download", "result.json");
       document.body.appendChild(downloadAnchorNode); // required for firefox
       downloadAnchorNode.click();

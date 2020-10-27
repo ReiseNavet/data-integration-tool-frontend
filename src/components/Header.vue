@@ -1,7 +1,11 @@
 <template>
     <v-app-bar app color="orange">
       <v-row justify="center" align="center">
-        <h1 class="text-h2 white--text user-select-none">ReiseNavet</h1>
+        <h1 
+          class="text-h2 browndarken4--text user-select-none"
+        >
+          ReiseNavet
+        </h1>
 
         <!-- Button to switch view. Should only be visible during development -->
         <!-- <v-btn id="switch-view-button" type="button" class="btn" @click="switch">Switch view</v-btn> -->
