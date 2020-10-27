@@ -3,10 +3,9 @@
   <v-row>
     <v-col>
       <h2 style="white-space: nowrap;"> Alignment Result </h2>
-
     </v-col>
-    <div class="float-md-right">
-      <v-btn class="ma-2 mr-0" color="white" elevation="2" @click="download">    
+    <div class="float-md-right py-2">
+      <v-btn class="mx-2 mr-0" color="white" elevation="2" @click="download" v-if="result.length > 0">    
         <v-icon dark> mdi-download </v-icon>
         Download alignment as .json ({{fileSize}} kb)
       </v-btn>
@@ -36,7 +35,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </div>
   </v-row>
   <v-row justify="center">
@@ -82,9 +80,23 @@
             </template>
             <div style="max-width: 300px; text-align: justify;">
               The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
-
             </div>
           </v-tooltip>
+        </template>
+        <template v-slot:no-data>
+          <v-row>
+            <v-col>
+              <img 
+                src="@/assets/undraw_no_data.svg" 
+                alt="Graphic depicting 'no data'"
+                style="max-height: 250px;"
+                class="mb-4 mt-8"
+              >
+              <h1>No semantic relations found!</h1>
+              <p>We found no semantic relations between the source- and target files. Are you sure the files are related?</p>
+
+            </v-col>
+          </v-row>
         </template>
       </v-data-table>
     </v-col>
@@ -108,15 +120,14 @@ export default {
       { text: 'Confidence', value: 'confidence' },
     ],
     dialog: false,
-    justify: [
-        'space-between',
-    ],
+    justify: [ 'space-between' ],
   }),
   computed: {
     dataString() {
       return "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2))
     },
     fileSize() {
+      // ref: https://stackoverflow.com/a/52254083/11192976
       return ((new Blob([this.dataString]).size)/1000).toFixed(1)
     }
   },
