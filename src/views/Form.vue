@@ -67,11 +67,11 @@
       <v-dialog
         v-model="dialog"
         persistent
-        max-width="300"
+        max-width="400"
       >
         <v-card>
           <v-card-title>
-            This is estimated to take <span> {{runtimeEstimate}} </span>
+            <span class="mx-auto"> This will take {{runtimeEstimate}}. </span>
           </v-card-title>
           <v-card-text class="mt-4">
             <v-progress-linear
@@ -163,14 +163,17 @@ export default {
   methods: {
     estimateRuntime() {
       const estimateSeconds = Math.round(5 + (this.sourceSchema.size/1000) * (this.targetSchema.size/1000) * 3 / 2000)
-      if (estimateSeconds >= 3600) {
-        this.runtimeEstimate = estimateSeconds / 3600  + " hours"
+      if (estimateSeconds > 3600) {
+        this.runtimeEstimate = "about " + Math.ceil(estimateSeconds / 3600)  + " hours"
       }
-      else if (estimateSeconds >= 60) {
-        this.runtimeEstimate =  estimateSeconds / 60 + " minutes"
+      else if (estimateSeconds > 60) {
+        this.runtimeEstimate =  "about " + Math.ceil(estimateSeconds / 60) + " minutes"
+      }
+      else if (estimateSeconds >= 15) {
+        this.runtimeEstimate = "about a minute"
       }
       else {
-        this.runtimeEstimate = estimateSeconds  + " seconds"
+        this.runtimeEstimate = "a few seconds"
       }
     },
     validate () {
