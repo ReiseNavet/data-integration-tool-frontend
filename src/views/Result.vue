@@ -5,7 +5,7 @@
       <h2 style="white-space: nowrap;"> Alignment Result </h2>
     </v-col>
     <div class="float-md-right py-2">
-      <v-btn class="mx-2 mr-0" color="white" elevation="2" @click="download" v-if="result.length > 0">    
+      <v-btn class="mx-2 mr-0" color="orange" elevation="2" @click="download" v-if="result.length > 0">    
         <v-icon dark> mdi-download </v-icon>
         Download alignment as .json ({{fileSize}} kb)
       </v-btn>
@@ -24,7 +24,7 @@
           <v-card-text> When going back to make a new alignment the results will be deleted.</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="white" @click="reset" >
+            <v-btn color="orange" @click="reset" >
               <v-icon dark> mdi-arrow-left </v-icon>
               Ok
             </v-btn>
@@ -110,7 +110,15 @@ export default {
     result: {
       type: Array,
       required: true,
-    }
+    },
+    sourceFilename: {
+      type: String,
+      default: '',
+    },
+    targetFilename: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
     tableHeaders: [
@@ -139,7 +147,7 @@ export default {
       // ref: https://stackoverflow.com/a/30800715/11192976
       const downloadAnchorNode = document.createElement('a');
       downloadAnchorNode.setAttribute("href", this.dataString);
-      downloadAnchorNode.setAttribute("download", "result.json");
+      downloadAnchorNode.setAttribute("download", `${this.sourceFilename}_${this.targetFilename}_alignment.json`);
       document.body.appendChild(downloadAnchorNode); // required for firefox
       downloadAnchorNode.click();
       downloadAnchorNode.remove();

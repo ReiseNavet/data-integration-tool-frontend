@@ -9,7 +9,13 @@
         :serverError="serverError" 
         @clearErrors="clearErrors"
       />
-      <Result v-else :result="result" @reset="reset"/>
+      <Result 
+        v-else 
+        :result="result" 
+        @reset="reset"
+        :sourceFilename="sourceFilename"
+        :targetFilename="targetFilename"
+      />
     </v-main>
   </v-app>
 </template>
@@ -29,6 +35,8 @@ export default {
     showForm: true,
     result: [],
     serverError: '',
+    sourceFilename: '',
+    targetFilename: '',
   }),
   methods: {
     async submitData(data) {
@@ -52,6 +60,9 @@ export default {
         if (response.ok) {
           const responseBody = await response.json()
           this.result = responseBody.filter(row => row.confidence > 0) // TODO: Do this in backend. Now it brings too many useless rows.
+          this.sourceFilename = data.sourceSchema.name.split('.')[0]
+          this.targetFilename = data.targetSchema.name.split('.')[0]
+
           this.changeView()
         } else {
           this.serverError = await response.text()
