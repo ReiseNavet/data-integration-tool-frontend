@@ -166,15 +166,15 @@ export default {
   },
   methods: {
     estimateRuntime() {
-      this.runtimeEstimate = Math.round(5 + (this.sourceSchema.size/1000) * (this.targetSchema.size/1000) * 3 / 2000)
-      if (this.runtimeEstimate >= 60) {
-        this.runtimeEstimate = this.runtimeEstimate/60 + " minutes"
+      const estimateSeconds = Math.round(5 + (this.sourceSchema.size/1000) * (this.targetSchema.size/1000) * 3 / 2000)
+      if (estimateSeconds >= 60) {
+        this.runtimeEstimate =  estimateSeconds / 60 + " minutes"
       }
-      else if (this.runtimeEstimate >= 3600) {
-        this.runtimeEstimate = this.runtimeEstimate/3600  + " hours"
+      else if (estimateSeconds >= 3600) {
+        this.runtimeEstimate = estimateSeconds / 3600  + " hours"
       }
       else {
-        this.runtimeEstimate = this.runtimeEstimate + " seconds"
+        this.runtimeEstimate = estimateSeconds  + " seconds"
       }
     },
     validate () {
