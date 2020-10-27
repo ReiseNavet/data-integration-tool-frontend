@@ -27,6 +27,7 @@
             placeholder="Source schema"
             show-size
             v-model="sourceSchema"
+            color="orange"
           />
         </v-col>
         <v-col sm="4" cols="12">
@@ -36,6 +37,7 @@
             placeholder="Target schema"
             show-size
             v-model="targetSchema"
+            color="orange"
           />
         </v-col>
       </v-row>
@@ -50,10 +52,12 @@
           <v-checkbox 
             v-model="equivalence"
             label="Equivalence"
+            color="orange"
           />
           <v-checkbox 
             v-model="subsumption"
             label="Subsumption"
+            color="orange"
           />
         </v-col>
       </v-row>
@@ -84,7 +88,7 @@
               />
             </v-card-text>
             <v-card-actions class="d-flex justify-center pb-4">
-              <v-btn color="white" @click="dialog = false"> 
+              <v-btn color="orange" @click="dialog = false"> 
                 <v-icon dark> mdi-cancel </v-icon> Cancel 
               </v-btn>
             </v-card-actions>
