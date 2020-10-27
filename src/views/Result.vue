@@ -83,6 +83,21 @@
             </div>
           </v-tooltip>
         </template>
+        <template v-slot:no-data>
+          <v-row>
+            <v-col>
+              <img 
+                src="@/assets/undraw_no_data.svg" 
+                alt="Graphic depicting 'no data'"
+                style="max-height: 250px;"
+                class="mb-4 mt-8"
+              >
+              <h1>No semantic relations found!</h1>
+              <p>We found no semantic relations between the source- and target files. Are you sure the files are related?</p>
+
+            </v-col>
+          </v-row>
+        </template>
       </v-data-table>
     </v-col>
   </v-row>
