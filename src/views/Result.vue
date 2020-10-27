@@ -4,8 +4,8 @@
     <v-col>
       <h2 style="white-space: nowrap;"> Alignment Result </h2>
     </v-col>
-    <div class="float-md-right">
-      <v-btn class="ma-2 mr-0" color="white" elevation="2" @click="download">    
+    <div class="float-md-right py-2">
+      <v-btn class="mx-2 mr-0" color="white" elevation="2" @click="download" v-if="result.length > 0">    
         <v-icon dark> mdi-download </v-icon>
         Download alignment as .json ({{fileSize}} kb)
       </v-btn>
