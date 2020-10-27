@@ -13,120 +13,112 @@
         </p>
       </v-col>
     </v-row>
-      <v-row 
-        class="my-0" 
-        justify="center" 
-      >
-        <h4>Upload files</h4>
-      </v-row>
-      <v-row class="my-0 rn-file-upload">
-        <v-col offset-sm="2" sm="4" cols="12">
-          <v-file-input
-            accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
-            truncate-length="30" 
-            placeholder="Source schema"
-            show-size
-            v-model="sourceSchema"
-            color="orange"
-          />
-        </v-col>
-        <v-col sm="4" cols="12">
-          <v-file-input
-            accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
-            truncate-length="30" 
-            placeholder="Target schema"
-            show-size
-            v-model="targetSchema"
-            color="orange"
-          />
-        </v-col>
-      </v-row>
-      <v-row 
-        class="my-0" 
-        justify="center"
-      >
-        <h4>Choose semantic relation</h4>
-      </v-row>
-      <v-row justify="center" class="rn-checkboxes">
-        <v-col style="width: 150px!important; flex-grow: 0;">
-          <v-checkbox 
-            v-model="equivalence"
-            label="Equivalence"
-            color="orange"
-          />
-          <v-checkbox 
-            v-model="subsumption"
-            label="Subsumption"
-            color="orange"
-          />
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-btn
+    <v-row class="my-0" justify="center">
+      <h4>Upload files</h4>
+    </v-row>
+    <v-row class="my-0 rn-file-upload">
+      <v-col offset-sm="2" sm="4" cols="12">
+        <v-file-input
+          accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
+          truncate-length="30" 
+          placeholder="Source schema"
+          show-size
+          v-model="sourceSchema"
           color="orange"
+        />
+      </v-col>
+      <v-col sm="4" cols="12">
+        <v-file-input
+          accept=".owl,.rdf,.xls,.xlsx,.zip,.xsd"
+          truncate-length="30" 
+          placeholder="Target schema"
+          show-size
+          v-model="targetSchema"
+          color="orange"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="my-0" justify="center">
+      <h4>Choose semantic relation</h4>
+    </v-row>
+    <v-row justify="center" class="rn-checkboxes">
+      <v-col style="width: 150px!important; flex-grow: 0;">
+        <v-checkbox 
+          v-model="equivalence"
+          label="Equivalence"
+          color="orange"
+        />
+        <v-checkbox 
+          v-model="subsumption"
+          label="Subsumption"
+          color="orange"
+        />
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-btn
+        color="orange"
+        elevation="2"
+        @click.prevent="submit"
+      >   
+        <v-icon dark> mdi-check </v-icon>
+        Compute Alignment    
+      </v-btn>
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="300"
+      >
+        <v-card>
+          <v-card-title>
+            This is estimated to take <span> {{runtimeEstimate}} </span>
+          </v-card-title>
+          <v-card-text class="mt-4">
+            <v-progress-linear
+              indeterminate
+              color="orange"
+            />
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center pb-4">
+            <v-btn color="orange" @click="dialog = false"> 
+              <v-icon dark> mdi-cancel </v-icon> Cancel 
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <v-row class="mt-5">
+      <v-col>
+        <v-alert
+          v-model="showFormAlert"
+          color="black"
+          text
+          dense
+          dismissible
           elevation="2"
-          @click.prevent="submit"
+          type="error"
         >   
-          <v-icon dark>
-            mdi-check
-            </v-icon>
-          Compute Alignment    
-        </v-btn>
-        <v-dialog
-          v-model="dialog"
-          persistent
-          max-width="300"
-        >
-          <v-card>
-            <v-card-title>
-              This is estimated to take <span> {{runtimeEstimate}} </span>
-            </v-card-title>
-            <v-card-text class="mt-4">
-              <v-progress-linear
-                indeterminate
-                color="orange"
-              />
-            </v-card-text>
-            <v-card-actions class="d-flex justify-center pb-4">
-              <v-btn color="orange" @click="dialog = false"> 
-                <v-icon dark> mdi-cancel </v-icon> Cancel 
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-row>
-      <v-row class="mt-5">
-        <v-col>
-          <v-alert
-            v-model="showFormAlert"
-            color="black"
-            text
-            dense
-            dismissible
-            elevation="2"
-            type="error"
-          >   
-            <span>Problems filling out form:</span>
-            <ul>
-              <li v-for="error in formErrors" :key="error">{{error}}</li>
-            </ul>
-          </v-alert>
-          <v-alert
-            v-model="showBackendAlert"
-            color="black"
-            text
-            dense
-            dismissible
-            elevation="2"
-            type="error"
-          >   
-            <span>Problems when computing:</span>
-            <ul>
-              <li>{{serverError}}</li>
-            </ul>
-          </v-alert>
-        </v-col>
-      </v-row>
+          <span>Problems filling out form:</span>
+          <ul>
+            <li v-for="error in formErrors" :key="error">{{error}}</li>
+          </ul>
+        </v-alert>
+        <v-alert
+          v-model="showBackendAlert"
+          color="black"
+          text
+          dense
+          dismissible
+          elevation="2"
+          type="error"
+        >   
+          <span>Problems when computing:</span>
+          <ul>
+            <li>{{serverError}}</li>
+          </ul>
+        </v-alert>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -171,11 +163,11 @@ export default {
   methods: {
     estimateRuntime() {
       const estimateSeconds = Math.round(5 + (this.sourceSchema.size/1000) * (this.targetSchema.size/1000) * 3 / 2000)
-      if (estimateSeconds >= 60) {
-        this.runtimeEstimate =  estimateSeconds / 60 + " minutes"
-      }
-      else if (estimateSeconds >= 3600) {
+      if (estimateSeconds >= 3600) {
         this.runtimeEstimate = estimateSeconds / 3600  + " hours"
+      }
+      else if (estimateSeconds >= 60) {
+        this.runtimeEstimate =  estimateSeconds / 60 + " minutes"
       }
       else {
         this.runtimeEstimate = estimateSeconds  + " seconds"

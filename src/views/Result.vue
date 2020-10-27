@@ -3,7 +3,6 @@
   <v-row>
     <v-col>
       <h2 style="white-space: nowrap;"> Alignment Result </h2>
-
     </v-col>
     <div class="float-md-right">
       <v-btn class="ma-2 mr-0" color="white" elevation="2" @click="download">    
@@ -36,7 +35,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </div>
   </v-row>
   <v-row justify="center">
@@ -82,7 +80,6 @@
             </template>
             <div style="max-width: 300px; text-align: justify;">
               The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
-
             </div>
           </v-tooltip>
         </template>
@@ -108,15 +105,14 @@ export default {
       { text: 'Confidence', value: 'confidence' },
     ],
     dialog: false,
-    justify: [
-        'space-between',
-    ],
+    justify: [ 'space-between' ],
   }),
   computed: {
     dataString() {
       return "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2))
     },
     fileSize() {
+      // ref: https://stackoverflow.com/a/52254083/11192976
       return ((new Blob([this.dataString]).size)/1000).toFixed(1)
     }
   },
