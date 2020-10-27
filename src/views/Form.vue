@@ -75,7 +75,7 @@
         >
           <v-card>
             <v-card-title>
-              This can take some time...
+              This is estimated to take <span> {{runtimeEstimate}} </span>
             </v-card-title>
             <v-card-text class="mt-4">
               <v-progress-linear
@@ -139,11 +139,12 @@ export default {
   data: () => ({
     sourceSchema: null,
     targetSchema: null,
-    equivalence: false,
-    subsumption: false,
+    equivalence: true,
+    subsumption: true,
     dialog: false,
     showFormAlert: false,
     formErrors: [],
+    runtimeEstimate: null,
   }),
   computed: {
     formData() {
@@ -164,6 +165,18 @@ export default {
     }
   },
   methods: {
+    estimateRuntime() {
+      const estimateSeconds = Math.round(5 + (this.sourceSchema.size/1000) * (this.targetSchema.size/1000) * 3 / 2000)
+      if (estimateSeconds >= 60) {
+        this.runtimeEstimate =  estimateSeconds / 60 + " minutes"
+      }
+      else if (estimateSeconds >= 3600) {
+        this.runtimeEstimate = estimateSeconds / 3600  + " hours"
+      }
+      else {
+        this.runtimeEstimate = estimateSeconds  + " seconds"
+      }
+    },
     validate () {
       const errs = []
       if(this.sourceSchema && this.sourceSchema.size > 2000000) {
@@ -187,7 +200,9 @@ export default {
     },
     submit() {
       if (this.validate()) {
+        this.estimateRuntime()
         this.$emit('submit', this.formData)
+        this.showBackendAlert = false
         this.dialog = true
       }
     },
