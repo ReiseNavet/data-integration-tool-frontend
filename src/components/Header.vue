@@ -8,7 +8,7 @@
         </h1>
 
         <!-- Button to switch view. Should only be visible during development -->
-        <!-- <v-btn id="switch-view-button" type="button" class="btn" @click="toggleView">Switch view</v-btn> -->
+        <v-btn id="switch-view-button" type="button" class="btn" @click="toggleView">Switch view</v-btn>
       </v-row>
     </v-app-bar>
 </template>
