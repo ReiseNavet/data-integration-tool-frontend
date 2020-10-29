@@ -2,19 +2,21 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2> Alignment Tool </h2>
+        <h2 class="text-center"> Alignment Tool </h2>
       </v-col>
     </v-row>
     <v-row class="my-0">
       <v-col>
-        <p> 
-          This alignment tool is used to compare two schemas. 
-          Upload both files, choose what semantic relation wanted and compute the alignment.
+        <p class="text-center"> 
+          This alignment tool is used to compare two schemas. <br>
+          Upload both files, choose what semantic relation wanted and compute the alignment. <br>
+          To read about supported file formats, 
+          <a href="https://github.com/Kundestyrt-ReiseNavet/integration-tool-backend/wiki/Supported-files"> visit our wiki. </a>
         </p>
       </v-col>
     </v-row>
     <v-row class="my-0" justify="center">
-      <h4>Upload files</h4>
+        <h4>Upload files</h4>
     </v-row>
     <v-row class="my-0 rn-file-upload">
       <v-col offset-sm="2" sm="4" cols="12">
