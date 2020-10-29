@@ -11,7 +11,7 @@
           This alignment tool is used to compare two schemas. <br>
           Upload both files, choose what semantic relation wanted and compute the alignment. <br>
           To read about supported file formats, 
-          <a href="https://github.com/Kundestyrt-ReiseNavet/integration-tool-backend/wiki/Supported-files"> visit our wiki. </a>
+          <a href="https://github.com/Kundestyrt-ReiseNavet/integration-tool-backend/wiki/Supported-files" target="_blank"> visit our wiki. </a>
         </p>
       </v-col>
     </v-row>
