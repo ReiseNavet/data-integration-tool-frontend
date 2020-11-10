@@ -2,20 +2,19 @@
 <div class="container">
   <v-row>
     <v-col>
-      <h2 style="white-space: nowrap;"> Alignment result </h2>
-
+      <h2 style="white-space: nowrap;"> Alignment Result </h2>
     </v-col>
-    <div class="float-md-right">
-      <v-btn class="ma-2 mr-0" color="white" elevation="2" @click="download">    
+    <div class="float-md-right py-2">
+      <v-btn class="mx-2 mr-0" color="orange" elevation="2" @click="download" v-if="result.length > 0">    
         <v-icon dark> mdi-download </v-icon>
-        Download alignment 
+        Download alignment as .json ({{fileSize}} kb)
       </v-btn>
     
       <v-dialog v-model="dialog" persistent max-width="290">
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="ml-2" color="orange" v-bind="attrs" v-on="on">
             <v-icon dark> mdi-arrow-left </v-icon>
-            New alignment
+            Compute new alignment
           </v-btn>
         </template>
         <v-card>
@@ -25,7 +24,7 @@
           <v-card-text> When going back to make a new alignment the results will be deleted.</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="white" @click="reset" >
+            <v-btn color="orange" @click="reset" >
               <v-icon dark> mdi-arrow-left </v-icon>
               Ok
             </v-btn>
@@ -36,7 +35,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </div>
   </v-row>
   <v-row justify="center">
@@ -51,7 +49,56 @@
         :items="result"
         :items-per-page="10"
         class="elevation-4"
-      />
+        :footer-props="{'items-per-page-options': [10, -1]}"
+      >
+        <template v-slot:[`header.relation`]="{ header }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                style="border-bottom:1px dotted"
+              >
+                {{header.text}}</span>
+            </template>
+            <div style="max-width: 300px; text-align: justify;">
+              <kbd>=</kbd> indicates that the source element and the target element are semantically equivalent, i.e. they are synonymous. <br>
+              <kbd>&lt;</kbd> indicates that the source element is less general than the target element. <br>
+              <kbd>&gt;</kbd> indicates that the source element is more general than the target element.
+            </div>
+          </v-tooltip>
+        </template>
+         <template v-slot:[`header.confidence`]="{ header }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                style="border-bottom:1px dotted"
+              >
+                {{header.text}}</span>
+            </template>
+            <div style="max-width: 300px; text-align: justify;">
+              The confidence value ranges from 0.0 (lowest) to 1.0 (highest) and is a measure stating how confident the system is on the computed relation being correct.
+            </div>
+          </v-tooltip>
+        </template>
+        <template v-slot:no-data>
+          <v-row>
+            <v-col>
+              <img 
+                src="@/assets/undraw_no_data.svg" 
+                alt="Graphic depicting 'no data'"
+                style="max-height: 250px;"
+                class="mb-4 mt-8"
+              >
+              <h1>No semantic relations found!</h1>
+              <p>We found no semantic relations between the source- and target files. Are you sure the files are related?</p>
+
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-table>
     </v-col>
   </v-row>
 </div>
@@ -63,7 +110,15 @@ export default {
     result: {
       type: Array,
       required: true,
-    }
+    },
+    sourceFilename: {
+      type: String,
+      default: '',
+    },
+    targetFilename: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
     tableHeaders: [
@@ -73,20 +128,26 @@ export default {
       { text: 'Confidence', value: 'confidence' },
     ],
     dialog: false,
-    justify: [
-        'space-between',
-    ],
+    justify: [ 'space-between' ],
   }),
+  computed: {
+    dataString() {
+      return "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2))
+    },
+    fileSize() {
+      // ref: https://stackoverflow.com/a/52254083/11192976
+      return ((new Blob([this.dataString]).size)/1000).toFixed(1)
+    }
+  },
   methods: {
     reset() {
       this.$emit('reset')
     },
     download() {
       // ref: https://stackoverflow.com/a/30800715/11192976
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.result, undefined, 2));
       const downloadAnchorNode = document.createElement('a');
-      downloadAnchorNode.setAttribute("href",     dataStr);
-      downloadAnchorNode.setAttribute("download", "result.json");
+      downloadAnchorNode.setAttribute("href", this.dataString);
+      downloadAnchorNode.setAttribute("download", `${this.sourceFilename}_${this.targetFilename}_alignment.json`);
       document.body.appendChild(downloadAnchorNode); // required for firefox
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
