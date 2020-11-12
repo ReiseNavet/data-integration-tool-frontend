@@ -5,6 +5,10 @@ Frontend for the integration tool built for ReiseNavet/SINTEF.
 
 See [User guide](https://github.com/Kundestyrt-ReiseNavet/integration-tool-frontend/wiki/User-guide)
 
+## Supported files
+
+See [Supported files](https://github.com/Kundestyrt-ReiseNavet/integration-tool-frontend/wiki/Supported-files)
+
 ## Installation:
 
 * Install [Node](https://nodejs.org/en/download/) to get npm (Node Package Manager).
