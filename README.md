@@ -3,7 +3,7 @@ Frontend for the integration tool built for ReiseNavet/SINTEF.
 
 ## User guide
 
-See [User_guide](https://github.com/Kundestyrt-ReiseNavet/integration-tool-frontend/wiki/User-guide)
+See [User guide](https://github.com/Kundestyrt-ReiseNavet/integration-tool-frontend/wiki/User-guide)
 
 ## Installation:
 
